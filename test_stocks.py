@@ -1,40 +1,50 @@
 import pytest
 import pprint
-from stocks import StockSearch
+from stocks import Stock
 
-def test_search_fractyl():
-    stock = StockSearch("GUTS")
+def test_search_google():
+    stock = Stock("GOOG")
     r = stock.search()
     stock_info = r.json()
-    pprint.pprint(stock_info)
-    assert stock_info[0]['stockExchange'] == 'Nasdaq'
-    assert stock_info[0]['name'] == 'Fractyl Health, Inc. Common Stock'
+    assert stock_info[0]['stockExchange'] == 'NASDAQ Global Select'
+    assert stock_info[0]['name'] == 'Alphabet Inc.'
 
 @pytest.mark.parametrize("ticker", ["AAPL","META", "GOOG", "NFLX"])
 def test_search_input(ticker):
-    stock = StockSearch(ticker)
+    stock = Stock(ticker)
     r = stock.search()
     stock_info = r.json()
     pprint.pprint(stock_info[0])
 
 def test_invalid_ticker():
-    stock = StockSearch("GOOG")
+    stock = Stock("GOOG")
     r = stock.search()
     stocks = r.json()
     nyse = 0
     nasdaq = 0
     total_stocks_found = len(stocks)
     for i in stocks:
-        exchangde = i['exchangeShortName']
-        if exchangde == 'NYSE':
+        exchange = i['exchangeShortName']
+        if exchange == 'NYSE':
             nyse += 1
-        elif exchangde == 'NASDAQ':
+        elif exchange == 'NASDAQ':
             nasdaq += 1
 
     print(f'Total stocks returned: {len(stocks)}')
     print(f'Total NYSE:{nyse}')
     print(f'Total NASDAQ:{nasdaq}')
 
-
-
-
+def test_get_live_qute():
+    stock = Stock("META")
+    r = stock.live_quote()
+    percent_change = r[0]['changesPercentage']
+    if percent_change >= 1.5:
+        print(f'Volatile Day! {stock.ticker} moved {percent_change} percent!')
+    else:
+        print("Not Much Movement")
+def test_volatility_builder():
+    tickers = ["AAPL","META", "GOOG", "NFLX"]
+    for stock in tickers:
+        stock = Stock(stock)
+        stock.volatility_builder()
+    print(f'Stocks to evaluate entry: {stock.stock_volatility_list}')
