@@ -23,14 +23,3 @@ class Stock:
         r = requests.get(quote_url)
         return r.json()
 
-    def volatility_builder(self):
-        """
-        TO-DO: Get rid of this once stock_evaluation.py is working as expected
-        :return:
-        """
-        r = self.live_quote()
-        if r[0]['changesPercentage'] >= 1:
-            self.stock_volatility_list.append(self.ticker)
-            print(f'Added {self.ticker}')
-        else:
-            print(f'Not adding {self.ticker}')

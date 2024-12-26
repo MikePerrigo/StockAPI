@@ -1,5 +1,4 @@
 import pytest
-import pprint
 from stocks import Stock
 import stock_evaluation as evaluation
 
@@ -25,27 +24,27 @@ def test_search_input(ticker):
 
 
 def test_similar_return_sorting():
-    stock = Stock("GOOG")
-    r = stock.search()
-    stocks = r.json()
-    assert stocks[0]["exchangeShortName"] == "NASDAQ"
-    nyse = 0
-    nyse_tickers = []
-    nasdaq = 0
-    nasdaq_tickers = []
-    for i in stocks:
-        exchange = i['exchangeShortName']
-        if exchange == 'NYSE':
-            nyse_tickers.append(i["symbol"])
-            nyse += 1
-        elif exchange == 'NASDAQ':
-            nasdaq_tickers.append(i["symbol"])
-            nasdaq += 1
-    assert stock.ticker in nasdaq_tickers
+    stocks = {
+        "stock_1": {
+            "symbol": "GOOG",
+            "exchange": "NASDAQ"
+        },
+        "stock_2": {
+            "symbol": "GM",
+            "exchange": "NYSE"
+        }
+    }
+    keys = ["stock_1", "stock_2"]
+    for i in keys:
+        current = stocks[i]
+        nyse_tickers, nasdaq_tickers = evaluation.exchange_sorter(current["symbol"], current["exchange"])
+        if current["exchange"] == "NYSE":
+            assert current["symbol"] in nyse_tickers
+            print(nyse_tickers)
+        elif current["exchange"] == "NASDAQ":
+            assert current["symbol"] in nasdaq_tickers
+            print(nasdaq_tickers)
 
-    print(f'Total stocks returned: {len(stocks)}')
-    print(f'Total NYSE:{nyse}')
-    print(f'Total NASDAQ:{nasdaq}')
 
 def test_get_live_qute():
     stock = Stock("META")
