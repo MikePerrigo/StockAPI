@@ -3,6 +3,12 @@ import pprint
 from stocks import Stock
 import stock_evaluation as evaluation
 
+
+def test_valid_invalid_tickers():
+    valid_stock = Stock("GOOG")
+    with pytest.raises(ValueError):
+        invalid_stock = Stock("Googling")
+
 def test_search_google():
     stock = Stock("GOOG")
     r = stock.search()
@@ -17,7 +23,8 @@ def test_search_input(ticker):
     stock_info = r.json()
     pprint.pprint(stock_info[0])
 
-def test_invalid_ticker():
+
+def test_similar_return():
     stock = Stock("GOOG")
     r = stock.search()
     stocks = r.json()

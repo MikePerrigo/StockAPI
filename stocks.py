@@ -5,11 +5,10 @@ import requests
 class Stock:
     stock_volatility_list = []
     def __init__(self, ticker: str = None):
-        if ticker:
-            self.ticker = ticker
-        else:
-            self.ticker = input("What ticker would you like to use?: ")
+        self.ticker = ticker
         self.api_key = "1JHo7I0oPuNeNpTjmMCuZURwTH9iWzxg"
+        # Check that the ticker is listed
+        self.search()
 
     def search(self):
         searh_url = f'https://financialmodelingprep.com/api/v3/search?query={self.ticker}&apikey={self.api_key}'
