@@ -1,6 +1,7 @@
 import pytest
 import pprint
 from stocks import Stock
+import stock_evaluation as evaluation
 
 def test_search_google():
     stock = Stock("GOOG")
@@ -22,7 +23,6 @@ def test_invalid_ticker():
     stocks = r.json()
     nyse = 0
     nasdaq = 0
-    total_stocks_found = len(stocks)
     for i in stocks:
         exchange = i['exchangeShortName']
         if exchange == 'NYSE':
@@ -44,7 +44,6 @@ def test_get_live_qute():
         print("Not Much Movement")
 def test_volatility_builder():
     tickers = ["AAPL","META", "GOOG", "NFLX"]
-    for stock in tickers:
-        stock = Stock(stock)
-        stock.volatility_builder()
-    print(f'Stocks to evaluate entry: {stock.stock_volatility_list}')
+    vol_per = [0.5, 1, 1.5, 2, 3]
+    for f in vol_per:
+        evaluation.volatility_builder(tickers, f)

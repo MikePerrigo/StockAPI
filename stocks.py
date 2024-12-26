@@ -4,8 +4,11 @@ import requests
 
 class Stock:
     stock_volatility_list = []
-    def __init__(self, ticker: str):
-        self.ticker = ticker
+    def __init__(self, ticker: str = None):
+        if ticker:
+            self.ticker = ticker
+        else:
+            self.ticker = input("What ticker would you like to use?: ")
         self.api_key = "1JHo7I0oPuNeNpTjmMCuZURwTH9iWzxg"
 
     def search(self):
@@ -22,6 +25,10 @@ class Stock:
         return r.json()
 
     def volatility_builder(self):
+        """
+        TO-DO: Get rid of this once stock_evaluation.py is working as expected
+        :return:
+        """
         r = self.live_quote()
         if r[0]['changesPercentage'] >= 1:
             self.stock_volatility_list.append(self.ticker)
