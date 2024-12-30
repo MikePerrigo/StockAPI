@@ -3,12 +3,19 @@ from stocks import Stock
 import stock_evaluation as evaluation
 
 
-def test_valid_invalid_tickers():
-    valid_stock = Stock("GOOG")
+def test_invalid_tickers():
+    """
+    Assert that an exception is raised when trying to initialize a ticker that is not listed
+    :return:
+    """
     with pytest.raises(ValueError):
-        invalid_stock = Stock("Googling")
+        Stock("Googling")
 
 def test_search_google():
+    """
+    Assert that the returned info for the Google ticker is corrent
+    :return:
+    """
     stock = Stock("GOOG")
     r = stock.search()
     stock_info = r.json()
@@ -17,6 +24,11 @@ def test_search_google():
 
 @pytest.mark.parametrize("ticker", ["AAPL","META", "GOOG", "NFLX"])
 def test_search_input(ticker):
+    """
+    Asserts that searching for the ticker returns a mathcing "symbol" in the JSON
+    :param ticker: The list of tickers to check
+    :return:
+    """
     stock = Stock(ticker)
     r = stock.search()
     stock_info = r.json()
@@ -24,6 +36,11 @@ def test_search_input(ticker):
 
 
 def test_similar_return_sorting():
+    """
+    Tests sorting through the pool of similar ticker symbols when searching for a given ticker.
+    This sorts into NYSE and NASDAQ lists, the expected exchange is passed in with the ticker.
+    :return:
+    """
     stocks = {
         "stock_1": {
             "symbol": "GOOG",
@@ -54,6 +71,7 @@ def test_get_live_qute():
         print(f'Volatile Day! {stock.ticker} moved {percent_change} percent!')
     else:
         print("Not Much Movement")
+
 def test_volatility_builder():
     tickers = ["AAPL","META", "GOOG", "NFLX"]
     vol_per = [0.5, 1, 1.5, 2, 3]

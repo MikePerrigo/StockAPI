@@ -20,10 +20,8 @@ def exchange_sorter(ticker: str = None, exchange: str = None):
     r = stock.search()
     stocks = r.json()
     assert stocks[0]["exchangeShortName"] == exchange
-    nyse = 0
-    nyse_tickers = []
-    nasdaq = 0
-    nasdaq_tickers = []
+    nyse, nasdaq = 0, 0
+    nyse_tickers, nasdaq_tickers = [], []
     for i in stocks:
         exchange = i['exchangeShortName']
         if exchange == 'NYSE':
