@@ -6,14 +6,20 @@ def volatility_builder(tickers=None, volatility: float = 1.25):
     stock = None
     evaluation_list = []
     for stock in tickers:
+        print(tickers)
         stock = Stock(stock)
         r = stock.live_quote()
-        if r[0]['changesPercentage'] >= volatility:
+        change_percentage = r[0]['changesPercentage']
+        print(f'Ticker {stock.ticker} has moved {change_percentage}')
+        if abs(r[0]['changesPercentage']) >= volatility:
             evaluation_list.append(stock.ticker)
             print(f'Added {stock.ticker}')
+            print('------------')
         else:
             print(f'Not adding {stock.ticker}')
-    print(f'Stocks to evaluate entry/exit: {evaluation_list}')
+            print('------------')
+    return evaluation_list
+
 
 def exchange_sorter(ticker: str = None, exchange: str = None):
     stock = Stock(ticker)

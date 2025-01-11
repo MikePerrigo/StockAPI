@@ -5,11 +5,17 @@ import stock_evaluation as evaluation
 
 def test_invalid_tickers():
     """
-    Assert that an exception is raised when trying to initialize a ticker that is not listed
+    Assert that an exception is raised when trying to search for a ticker that is not listed
     :return:
     """
+    invalid_stock = Stock("Googling")
     with pytest.raises(ValueError):
-        Stock("Googling")
+        invalid_stock.search()
+
+    valid_stock = Stock("GOOG")
+    r = valid_stock.search()
+    assert r.json() is not None, "Response is empty"
+
 
 def test_search_google():
     """
@@ -64,6 +70,10 @@ def test_similar_return_sorting():
 
 
 def test_get_live_qute():
+    """
+    Informational test to call out if a ticker has moved a lot.
+    :return:
+    """
     stock = Stock("META")
     r = stock.live_quote()
     percent_change = r[0]['changesPercentage']
@@ -72,8 +82,21 @@ def test_get_live_qute():
     else:
         print("Not Much Movement")
 
+
 def test_volatility_builder():
+    """
+    Tests the evaluation of the current days change percentage against the preset volatility.
+    If the days change percentage is greater than the volatility, the stock should be evaluated for entry/exit
+    :return:
+    """
     tickers = ["AAPL","META", "GOOG", "NFLX"]
-    vol_per = [0.5, 1, 1.5, 2, 3]
-    for f in vol_per:
-        evaluation.volatility_builder(tickers, f)
+    volatility = 1.7
+    evaluation_list = evaluation.volatility_builder(tickers, volatility)
+    for ticker in tickers:
+        eval = Stock(ticker)
+        r = eval.live_quote()
+        change_percentage = r[0]['changesPercentage']
+        if abs(change_percentage) > volatility:
+            assert eval.ticker in evaluation_list, f'Ticker {ticker} should be in evaluation list but is not'
+    print(f'Stocks to evaluate { evaluation_list }')
+
