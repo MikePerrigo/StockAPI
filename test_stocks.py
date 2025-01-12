@@ -19,7 +19,7 @@ def test_invalid_tickers():
 
 def test_search_google():
     """
-    Assert that the returned info for the Google ticker is corrent
+    Assert that the returned info for the Google ticker is correct
     :return:
     """
     stock = Stock("GOOG")
@@ -31,7 +31,7 @@ def test_search_google():
 @pytest.mark.parametrize("ticker", ["AAPL","META", "GOOG", "NFLX"])
 def test_search_input(ticker):
     """
-    Asserts that searching for the ticker returns a mathcing "symbol" in the JSON
+    Asserts that searching for the ticker returns a matching "symbol" in the JSON
     :param ticker: The list of tickers to check
     :return:
     """
