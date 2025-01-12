@@ -5,8 +5,10 @@ def volatility_builder(tickers=None, volatility: float = 1.25):
     # Declare stock so not referenced before assignment linting error
     stock = None
     evaluation_list = []
+
+    # Assess the stocks' current daily change amount.
+    # If the current change percentage is greater than the volatility value, add to an evaluation list
     for stock in tickers:
-        print(tickers)
         stock = Stock(stock)
         r = stock.live_quote()
         change_percentage = r[0]['changesPercentage']
@@ -22,6 +24,13 @@ def volatility_builder(tickers=None, volatility: float = 1.25):
 
 
 def exchange_sorter(ticker: str = None, exchange: str = None):
+    """
+    Each stock returns a large pool of similar stocks when using the stock.search() call
+    This function sorts the pool of stocks into a list of either those on the NYSE or the NASDAQ
+    :param ticker:
+    :param exchange:
+    :return:
+    """
     stock = Stock(ticker)
     r = stock.search()
     stocks = r.json()
