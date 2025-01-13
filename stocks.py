@@ -1,10 +1,11 @@
 import requests
+import os
 
 
 class Stock:
     def __init__(self, ticker: str = None):
         self.ticker = ticker
-        self.api_key = "1JHo7I0oPuNeNpTjmMCuZURwTH9iWzxg"
+        self.api_key = os.environ.get('API_KEY')
         self.search_url = f'https://financialmodelingprep.com/api/v3/search?query={self.ticker}&apikey={self.api_key}'
         self.live_quote_url = f'https://financialmodelingprep.com/api/v3/quote/{self.ticker}?apikey={self.api_key}'
 
