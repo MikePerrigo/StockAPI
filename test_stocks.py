@@ -20,7 +20,6 @@ def test_invalid_tickers():
 def test_search_google():
     """
     Assert that the returned info for the Google ticker is correct
-    :return:
     """
     stock = Stock("GOOG")
     r = stock.search()
@@ -33,7 +32,6 @@ def test_search_input(ticker):
     """
     Asserts that searching for the ticker returns a matching "symbol" in the JSON
     :param ticker: The list of tickers to check
-    :return:
     """
     stock = Stock(ticker)
     r = stock.search()
@@ -45,7 +43,6 @@ def test_similar_return_sorting():
     """
     Tests sorting through the pool of similar ticker symbols when searching for a given ticker.
     This sorts into NYSE and NASDAQ lists, the expected exchange is passed in with the ticker.
-    :return:
     """
     stocks = {
         "stock_1": {
@@ -72,7 +69,6 @@ def test_similar_return_sorting():
 def test_get_live_qute():
     """
     Informational test to call out if a ticker has moved a lot.
-    :return:
     """
     stock = Stock("META")
     r = stock.live_quote()
@@ -87,7 +83,6 @@ def test_volatility_builder():
     """
     Tests the evaluation of the current days change percentage against the preset volatility.
     If the days change percentage is greater than the volatility, the stock should be evaluated for entry/exit
-    :return:
     """
     tickers = ["AAPL","META", "GOOG", "NFLX"]
     volatility = 1.7

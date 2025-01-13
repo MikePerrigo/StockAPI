@@ -2,6 +2,12 @@ from stocks import Stock
 
 
 def volatility_builder(tickers=None, volatility: float = 1.25):
+    """
+    Add stocks to an evaluation list if its current volatility is greater than the passed volatility.
+    :param tickers: Tickers to search.
+    :param volatility: Volatility number to use for determination.
+    :return: The list of stocks to evaluate.
+    """
     # Declare stock so not referenced before assignment linting error
     stock = None
     evaluation_list = []
@@ -27,9 +33,9 @@ def exchange_sorter(ticker: str = None, exchange: str = None):
     """
     Each stock returns a large pool of similar stocks when using the stock.search() call
     This function sorts the pool of stocks into a list of either those on the NYSE or the NASDAQ
-    :param ticker:
-    :param exchange:
-    :return:
+    :param ticker: The ticker to search
+    :param exchange: The exchange to use for sorting
+    :return: Two lists: A list of stocks on the NYSE and on the NASDAQ exchanges
     """
     stock = Stock(ticker)
     r = stock.search()
